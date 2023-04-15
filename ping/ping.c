@@ -1167,7 +1167,7 @@ static void pr_options(struct ping_rts *rts, unsigned char *cp, int hlen)
 					if (stdtime == 0)
 						printf(_("\t%ld absolute"), l);
 					else
-						printf("\t%ld", l - stdtime);
+						printf("\t%ld %ld", l, l - stdtime);
 					stdtime = l;
 				}
 				i -= 4;
@@ -1535,9 +1535,12 @@ int ping4_send_probe(struct ping_rts *rts, socket_st *sock, void *packet,
 	if (rts->timing) {
 		if (rts->opt_latency) {
 			struct timeval tmp_tv;
+			printf("size of timeval %d\n", sizeof(struct timeval));
 			gettimeofday(&tmp_tv, NULL);
 			memcpy(icp + 1, &tmp_tv, sizeof(tmp_tv));
 		} else {
+			struct timeval tmp_tv;
+			printf("size of timeval123 %d\n", sizeof(struct timeval));
 			memset(icp + 1, 0, sizeof(struct timeval));
 		}
 	}
