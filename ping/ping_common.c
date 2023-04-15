@@ -528,10 +528,25 @@ void setup(struct ping_rts *rts, socket_st *sock)
 	if (!rts->opt_pingfilled) {
 		size_t i;
 		unsigned char *p = rts->outpack + 8;
+		unsigned char temp;
 
 		/* Do not forget about case of small datalen, fill timestamp area too! */
-		for (i = 0; i < rts->datalen; ++i)
+		for (i = 0; i < rts->datalen; ++i) {
+			if (i > 11) {
+			*p++ = 0xac;
+			temp = 0xac;
+
+			}
+		    else
+		    {
 			*p++ = i;
+			temp = i;
+
+		    }
+
+
+		    printf("%c %x\n", temp, temp);
+		}
 	}
 
 	if (sock->socktype == SOCK_RAW && rts->ident == -1)
